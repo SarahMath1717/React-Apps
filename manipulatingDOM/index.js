@@ -109,3 +109,32 @@ fetch(URL)
       jokeText.textContent = jokeData.setup + " " + jokeData.punchline; //format the joke text
       body.appendChild(jokeText); //add joke to page body
     });
+
+
+// Add to do list
+const buttonEl = document.querySelector('#my-button');
+
+buttonEl.addEventListener('click', () => { // add event listener
+  fetch('https://jsonplaceholder.typicode.com/todos')
+    .then(response => response.json())
+    .then(data => {
+      console.log('TODO data', data); //this will execute when the user clicks the button
+    
+    // delete old list if there's a new one to replace it
+    const oldList = document.querySelector('#todo-list');
+    if (oldList) {
+      oldList.remove();
+    }
+
+    const toDoList = document.createElement("ol"); //created list item for list content
+    toDoList.id = 'todo-list';
+
+    data.forEach(todo => {
+      const todoItem = document.createElement("li");
+      toDoList.textContent = todo.title;
+      toDoList.appendChild(todoItem);
+    });
+
+    body.appendChild(toDoList);
+  });
+});
